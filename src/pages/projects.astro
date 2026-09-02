@@ -1,0 +1,117 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Projects | Luis Firl"
+  description="Research and computational projects by Luis Firl."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Projects</p>
+      <h1>Research, models and computational tools.</h1>
+
+      <p class="lead">
+        Selected research and programming projects at the intersection of
+        biology, mathematical modeling and machine learning.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container projects">
+      <article>
+        <div class="project-meta">
+          <span>Master's Thesis</span>
+          <span>Humboldt-Universität zu Berlin</span>
+        </div>
+
+        <h2>Theoretical Biophysics</h2>
+
+        <p>
+          Computational research carried out as part of my Master's thesis
+          in the Theoretical Biophysics group at Humboldt-Universität zu
+          Berlin.
+        </p>
+
+        <p class="status">Detailed project page coming next.</p>
+      </article>
+
+      <article>
+        <div class="project-meta">
+          <span>Scientific ML</span>
+          <span>Upcoming</span>
+        </div>
+
+        <h2>Machine Learning for Dynamical Systems</h2>
+
+        <p>
+          Future projects exploring modern machine learning approaches for
+          biological and physical dynamical systems.
+        </p>
+
+        <p class="status">In development.</p>
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    padding: 7rem 0 5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-hero h1 {
+    max-width: 950px;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+  }
+
+  .lead {
+    max-width: 760px;
+    font-size: 1.3rem;
+  }
+
+  .projects {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  article {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 2.5rem;
+  }
+
+  .project-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: var(--muted);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  article h2 {
+    margin: 2rem 0 1rem;
+  }
+
+  article p {
+    max-width: 760px;
+  }
+
+  .status {
+    color: var(--accent);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.85rem;
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 650px) {
+    .project-meta {
+      flex-direction: column;
+    }
+  }
+</style>

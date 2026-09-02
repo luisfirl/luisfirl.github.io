@@ -1,0 +1,107 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="About | Luis Firl"
+  description="About Luis Firl, computational life scientist interested in systems biology, theoretical biophysics and machine learning."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">About</p>
+      <h1>Life sciences, mathematical models and computation.</h1>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container about-grid">
+      <div>
+        <p class="eyebrow">Background</p>
+        <h2>From Life Science Engineering to computational biology.</h2>
+      </div>
+
+      <div class="text">
+        <p>
+          I studied Life Science Engineering at HTW Berlin, where I developed
+          an interdisciplinary background spanning biology, engineering and
+          quantitative methods.
+        </p>
+
+        <p>
+          I later completed my Master's thesis in Theoretical Biophysics at
+          Humboldt-Universität zu Berlin, working on computational approaches
+          to biological systems.
+        </p>
+
+        <p>
+          I am particularly interested in research at the interface of
+          mechanistic modeling and machine learning, and in developing
+          computational methods that can help us understand complex biological
+          dynamics.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section contact">
+    <div class="container">
+      <p class="eyebrow">Connect</p>
+      <h2>Find me online.</h2>
+
+      <div class="links">
+        <a href="https://github.com/luisfirl" target="_blank" rel="noreferrer">
+          GitHub ↗
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    padding: 7rem 0 5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-hero h1 {
+    max-width: 950px;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 6rem;
+  }
+
+  .text {
+    font-size: 1.1rem;
+  }
+
+  .text p:first-child {
+    margin-top: 0;
+  }
+
+  .contact {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+  }
+
+  .links {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .links a {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  @media (max-width: 750px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+</style>

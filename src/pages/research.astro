@@ -1,0 +1,109 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Research | Luis Firl"
+  description="Research interests of Luis Firl in systems biology, theoretical biophysics and scientific machine learning."
+>
+  <section class="page-hero">
+    <div class="container">
+      <p class="eyebrow">Research</p>
+      <h1>Understanding biological systems through models and computation.</h1>
+
+      <p class="lead">
+        I am interested in combining mechanistic descriptions of biological
+        systems with modern computational and machine learning methods.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container research-grid">
+      <article>
+        <span>01</span>
+        <h2>Systems Biology</h2>
+        <p>
+          Mathematical and computational models for understanding how
+          interactions between biological components give rise to complex
+          cellular dynamics.
+        </p>
+      </article>
+
+      <article>
+        <span>02</span>
+        <h2>Theoretical Biophysics</h2>
+        <p>
+          Mechanistic and quantitative approaches to biological systems,
+          with a particular interest in dynamical models and emergent behavior.
+        </p>
+      </article>
+
+      <article>
+        <span>03</span>
+        <h2>Scientific Machine Learning</h2>
+        <p>
+          Machine learning methods that incorporate physical or biological
+          knowledge rather than treating scientific systems purely as
+          black-box prediction problems.
+        </p>
+      </article>
+
+      <article>
+        <span>04</span>
+        <h2>Computational Modeling</h2>
+        <p>
+          Reproducible computational workflows for simulation, inference and
+          analysis of complex biological models.
+        </p>
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    padding: 7rem 0 5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .page-hero h1 {
+    max-width: 1000px;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+  }
+
+  .lead {
+    max-width: 760px;
+    font-size: 1.3rem;
+  }
+
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  article {
+    padding: 2.5rem;
+    background: var(--surface);
+  }
+
+  article span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+
+  article h2 {
+    margin-top: 2rem;
+    font-size: 1.7rem;
+  }
+
+  @media (max-width: 750px) {
+    .research-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
