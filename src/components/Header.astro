@@ -1,0 +1,47 @@
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="name" href="/">Luis Firl</a>
+
+    <nav aria-label="Main navigation">
+      <a href="/research">Research</a>
+      <a href="/projects">Projects</a>
+      <a href="/about">About</a>
+      <a href="https://github.com/luisfirl" target="_blank" rel="noreferrer">
+        GitHub
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    background: rgba(247, 248, 250, 0.9);
+  }
+
+  .header-inner {
+    min-height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .name {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  nav {
+    display: flex;
+    gap: 1.75rem;
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 650px) {
+    nav {
+      gap: 0.8rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>

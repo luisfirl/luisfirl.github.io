@@ -1,11 +1,230 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="Luis Firl | Computational Biology & Scientific ML"
+  description="Luis Firl — Systems Biology, Theoretical Biophysics and Scientific Machine Learning."
+>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Computational Life Science</p>
+
+        <h1>Luis Firl</h1>
+
+        <p class="lead">
+          I am interested in combining mechanistic models of biological
+          systems with machine learning to understand complex biological
+          dynamics.
+        </p>
+
+        <div class="links">
+          <a class="primary" href="/research">Explore my research →</a>
+          <a href="/projects">View projects</a>
+        </div>
+      </div>
+
+      <div class="research-summary">
+        <span class="label">Research interests</span>
+
+        <ul>
+          <li>Systems Biology</li>
+          <li>Theoretical Biophysics</li>
+          <li>Scientific Machine Learning</li>
+          <li>Mechanistic Modeling</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <p class="eyebrow">Research</p>
+      <h2>Connecting biological mechanisms and machine learning.</h2>
+
+      <p class="section-intro">
+        My background lies at the interface of life sciences, mathematical
+        modeling and computational biology. I am particularly interested in
+        methods that combine mechanistic knowledge with modern machine
+        learning.
+      </p>
+    </div>
+  </section>
+
+  <section class="section work-section">
+    <div class="container">
+      <p class="eyebrow">Selected work</p>
+      <h2>Current projects</h2>
+
+      <div class="project-grid">
+        <article>
+          <span>01</span>
+          <h3>Master's Thesis</h3>
+          <p>
+            Computational research in theoretical biophysics at
+            Humboldt-Universität zu Berlin.
+          </p>
+          <a href="/projects">Learn more →</a>
+        </article>
+
+        <article>
+          <span>02</span>
+          <h3>Scientific ML</h3>
+          <p>
+            Upcoming projects exploring machine learning methods for
+            biological and physical systems.
+          </p>
+          <a href="/projects">Explore projects →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container background-grid">
+      <div>
+        <p class="eyebrow">Background</p>
+        <h2>Life sciences meet computation.</h2>
+      </div>
+
+      <div>
+        <p>
+          I studied Life Science Engineering at HTW Berlin and completed my
+          Master's thesis in the field of Theoretical Biophysics at
+          Humboldt-Universität zu Berlin.
+        </p>
+
+        <a href="/about">More about me →</a>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  .hero {
+    padding: 8rem 0 7rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
+    gap: 6rem;
+    align-items: end;
+  }
+
+  .lead {
+    max-width: 760px;
+    font-size: clamp(1.2rem, 2vw, 1.55rem);
+    line-height: 1.6;
+  }
+
+  .links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .primary {
+    background: var(--text);
+    color: white;
+    padding: 0.85rem 1.25rem;
+    border-radius: 6px;
+  }
+
+  .primary:hover {
+    background: var(--accent);
+    color: white;
+  }
+
+  .research-summary {
+    border-left: 1px solid var(--border);
+    padding-left: 2rem;
+  }
+
+  .label,
+  article > span {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0;
+  }
+
+  li {
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-intro {
+    max-width: 760px;
+    font-size: 1.2rem;
+  }
+
+  .work-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    margin-top: 3rem;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  article {
+    background: var(--surface);
+    padding: 2.5rem;
+  }
+
+  article h3 {
+    margin-top: 2rem;
+    font-size: 1.5rem;
+  }
+
+  article a,
+  .background-grid a {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .background-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+  }
+
+  @media (max-width: 750px) {
+    .hero {
+      padding: 5rem 0;
+    }
+
+    .hero-grid,
+    .background-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .research-summary {
+      border-left: 0;
+      border-top: 1px solid var(--border);
+      padding: 2rem 0 0;
+    }
+
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
