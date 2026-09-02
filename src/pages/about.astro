@@ -1,5 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import profileImage from '../assets/luis-firl-profile.jpg';
 ---
 
 <Layout
@@ -7,9 +9,27 @@ import Layout from '../layouts/Layout.astro';
   description="About Luis Firl, computational life scientist interested in systems biology, theoretical biophysics and machine learning."
 >
   <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">About</p>
-      <h1>Life sciences, mathematical models and computation.</h1>
+    <div class="container profile-hero">
+      <Image
+        class="profile-image"
+        src={profileImage}
+        alt="Portrait of Luis Firl"
+        width={280}
+      />
+
+      <div>
+        <p class="eyebrow">About</p>
+        <h1>Luis Firl</h1>
+        <p class="profile-description">
+          M.Sc. Life Science Engineering
+        </p>
+        <div class="profile-interests">
+          <span>Systems Biology</span>
+          <span>Theoretical Biophysics</span>
+          <span>Mechanistic Modeling</span>
+          <span>Scientific Machine Learning</span>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -68,6 +88,59 @@ import Layout from '../layouts/Layout.astro';
     font-size: clamp(2.8rem, 6vw, 5rem);
   }
 
+  .profile-hero {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .profile-image {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center 0%;
+    border-radius: 50%;
+  }
+
+  .profile-description {
+    max-width: 680px;
+    font-size: 1.25rem;
+    margin-top: 0.35rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .profile-interests {
+    max-width: 680px;
+    color: var(--muted);
+    display: grid;
+    grid-template-columns: max-content max-content;
+    gap: 0.35rem 1.75rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.8rem;
+    line-height: 1.8;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .profile-interests span {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .profile-interests span::before {
+    content: '•';
+    color: var(--accent);
+  }
+
+  .profile-hero h1 {
+    font-size: clamp(3.75rem, 8vw, 5.5rem);
+    text-align: left;
+    margin-left: -0.5rem;
+    margin-bottom: 0;
+  }
+
   .about-grid {
     display: grid;
     grid-template-columns: 1fr 1.3fr;
@@ -99,6 +172,19 @@ import Layout from '../layouts/Layout.astro';
   }
 
   @media (max-width: 750px) {
+    .profile-hero {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .profile-image {
+      width: min(220px, 70vw);
+    }
+
+    .profile-interests {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .about-grid {
       grid-template-columns: 1fr;
       gap: 2rem;
