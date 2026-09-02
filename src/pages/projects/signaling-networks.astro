@@ -1,0 +1,676 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+  title="Dynamic Modeling of Signaling Networks | Luis Firl"
+  description="Ongoing research on data-driven inference and dynamic modeling of kinase signaling networks in triple-negative breast cancer."
+>
+  <section class="project-hero">
+    <div class="container">
+      <p class="eyebrow">Ongoing Research · Systems Biology</p>
+
+      <h1>
+        Data-driven Dynamic Modeling of Signaling Networks in
+        Triple-Negative Breast Cancer
+      </h1>
+
+      <p class="hero-text">
+        A data-driven modeling framework for inferring kinase signaling
+        dependencies from time-resolved phosphoproteomic data and integrating
+        them into a mechanistic ODE model for dynamic simulation and
+        perturbation analysis.
+      </p>
+
+      <div class="project-context">
+        <div>
+          <span class="context-label">Research environment</span>
+          <p>
+            Theoretical Biophysics · Humboldt-Universität zu Berlin
+          </p>
+        </div>
+
+        <div>
+          <span class="context-label">Status</span>
+          <p>Ongoing research</p>
+        </div>
+      </div>
+
+      <div class="project-links">
+        <a
+          href="https://klipp-linding.science/index.php/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Research Group ↗
+        </a>
+
+        <a
+          href="https://github.com/luisfirl/SignalingProject"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GitHub ↗
+        </a>
+
+        <a
+          href="/files/luis-firl-master-thesis.pdf"
+          target="_blank"
+          rel="noreferrer"
+>
+          Read Master's Thesis (PDF) ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="research-origin">
+    <div class="container origin-grid">
+      <p class="eyebrow">Research context</p>
+
+      <div>
+        <p class="large-text">
+          The project originated from my Master's thesis in the Theoretical
+          Biophysics group of Prof. Edda Klipp at Humboldt-Universität zu
+          Berlin and is currently being further developed as part of an
+          ongoing research collaboration.
+        </p>
+
+        <p>
+          The broader goal is to develop quantitative models that connect
+          experimentally observed phosphorylation dynamics with the underlying
+          regulatory structure of cellular signaling networks.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-section">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">From data to dynamics</p>
+
+        <h2>
+          Reconstructing dynamic signaling behavior from experimental
+          measurements.
+        </h2>
+      </div>
+
+      <div class="pipeline" aria-label="Modeling workflow">
+        <div>
+          <span>Experimental data</span>
+          <strong>Time-resolved phosphoproteomics</strong>
+        </div>
+
+        <span class="arrow">→</span>
+
+        <div>
+          <span>Inference</span>
+          <strong>Network dependencies</strong>
+        </div>
+
+        <span class="arrow">→</span>
+
+        <div>
+          <span>Dynamics</span>
+          <strong>Mechanistic ODE model</strong>
+        </div>
+
+        <span class="arrow">→</span>
+
+        <div>
+          <span>Analysis</span>
+          <strong>In-silico perturbations</strong>
+        </div>
+      </div>
+
+      <div class="two-column text-block">
+        <h3>Why dynamic modeling?</h3>
+
+        <div>
+          <p>
+            Cellular signaling pathways are not isolated linear cascades.
+            Their behavior emerges from interacting kinases, feedback,
+            crosstalk and time-dependent changes in phosphorylation.
+          </p>
+
+          <p>
+            The modeling framework therefore aims to move beyond a static
+            representation of signaling interactions and reconstruct how
+            network activity evolves over time.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading narrow">
+        <p class="eyebrow">Dependency inference</p>
+
+        <h2>
+          Estimating how signaling components influence one another.
+        </h2>
+
+        <p>
+          A known network topology describes which interactions may occur,
+          but not their relative strength. The model therefore introduces
+          dependency parameters that are inferred directly from experimental
+          phosphorylation trajectories.
+        </p>
+      </div>
+
+      <div class="dependency-grid">
+        <div class="parameter">
+          <span class="symbol">α</span>
+
+          <div>
+            <h3>Kinase → phosphosite</h3>
+            <p>
+              Relative influence of an upstream kinase on the phosphorylation
+              of a target site.
+            </p>
+          </div>
+        </div>
+
+        <div class="parameter">
+          <span class="symbol">β</span>
+
+          <div>
+            <h3>Phosphosite → kinase activity</h3>
+            <p>
+              Contribution of a kinase's phosphorylation state to its
+              effective activity within the network.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="equation-block">
+        <span class="equation-label">Dependency model</span>
+
+        <p class="equation">
+          Pᵢ(t) = αᵢ⁰ + Σⱼ αⱼⁱ ( βⱼ⁰ + Σₖ βⱼᵏ Pⱼᵏ(t) )
+        </p>
+
+        <p>
+          The nested formulation links the phosphorylation state of upstream
+          kinases to their influence on downstream target sites. Parameter
+          estimation is performed under constraints that preserve the intended
+          relative interpretation of these dependencies.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dynamics-section">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Mechanistic dynamics</p>
+
+        <h2>
+          From inferred dependencies to a coupled ODE network.
+        </h2>
+      </div>
+
+      <div class="mechanism">
+        <div>Transcription</div>
+        <span>→</span>
+        <div>mRNA</div>
+        <span>→</span>
+        <div>Protein</div>
+        <span>⇄</span>
+        <div>Phosphoprotein</div>
+      </div>
+
+      <div class="two-column text-block">
+        <h3>Embedding network activity into kinetics</h3>
+
+        <div>
+          <p>
+            The dynamic model describes transcription, translation,
+            degradation, phosphorylation and dephosphorylation through a
+            system of ordinary differential equations based on mass-action
+            kinetics.
+          </p>
+
+          <p>
+            The inferred signaling dependencies are embedded directly into
+            the phosphorylation terms of the ODE system. In this way, the
+            statistical information extracted from the experimental data
+            becomes part of a mechanistic description of the network
+            dynamics.
+          </p>
+        </div>
+      </div>
+
+      <div class="concept-flow">
+        <span>Inferred dependencies</span>
+        <strong>α, β</strong>
+        <span>→</span>
+        <span>Signaling activity</span>
+        <span>→</span>
+        <span>Phosphorylation kinetics</span>
+        <span>→</span>
+        <strong>ODE dynamics</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading narrow">
+        <p class="eyebrow">Parameter inference</p>
+
+        <h2>
+          Fitting the data is only part of the problem.
+        </h2>
+
+        <p>
+          Complementary numerical optimization strategies are used to estimate
+          the constrained dependency parameters from experimental trajectories.
+          Although different optimization formulations can reproduce the data
+          similarly well, they do not necessarily identify the same underlying
+          parameter configuration.
+        </p>
+      </div>
+
+      <blockquote>
+        Good agreement with experimental observations does not necessarily
+        imply unique identification of the underlying biological parameters.
+      </blockquote>
+
+      <p class="after-quote">
+        This identifiability problem motivates the integration of additional
+        biophysical information and constraints into future versions of the
+        model.
+      </p>
+    </div>
+  </section>
+
+  <section class="section ongoing-section">
+    <div class="container ongoing-grid">
+      <div>
+        <p class="eyebrow">Current work</p>
+        <h2>The model is still evolving.</h2>
+      </div>
+
+      <div class="ongoing-copy">
+        <p>
+          My current work focuses on improving the kinetic parameter
+          estimation of the dynamic ODE model, with particular attention to
+          numerical stability, computational efficiency and the quality of
+          the resulting simulations.
+        </p>
+
+        <p>
+          The modeling framework is intended to remain scalable so that the
+          same underlying approach can be applied to increasingly large and
+          interconnected signaling networks.
+        </p>
+
+        <p>
+          In parallel, I am developing the scientific framework for a future
+          publication together with collaborators involved in the experimental
+          research underlying the project.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Toward predictive signaling models</p>
+
+        <h2>
+          From reconstruction toward prediction and perturbation.
+        </h2>
+      </div>
+
+      <div class="outlook-grid">
+        <div>
+          <h3>Biophysical constraints</h3>
+          <p>
+            Integrating additional biological knowledge to improve parameter
+            identifiability and mechanistic plausibility.
+          </p>
+        </div>
+
+        <div>
+          <h3>Improved inference</h3>
+          <p>
+            Developing more robust strategies for estimating kinetic and
+            network parameters from experimental time-series data.
+          </p>
+        </div>
+
+        <div>
+          <h3>Network perturbations</h3>
+          <p>
+            Using the dynamic model to investigate regulatory control,
+            robustness and responses to targeted in-silico interventions.
+          </p>
+        </div>
+
+        <div>
+          <h3>Scientific machine learning</h3>
+          <p>
+            Exploring how mechanistic models and modern learning approaches
+            can be combined as larger experimental datasets become available.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .project-hero {
+    padding: 7rem 0 5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .project-hero h1 {
+    max-width: 1050px;
+    font-size: clamp(2.8rem, 6.5vw, 5.6rem);
+    margin-bottom: 2rem;
+  }
+
+  .hero-text {
+    max-width: 820px;
+    font-size: clamp(1.15rem, 2vw, 1.4rem);
+  }
+
+  .project-context {
+    display: flex;
+    gap: 5rem;
+    margin-top: 4rem;
+  }
+
+  .context-label,
+  .equation-label {
+    display: block;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .project-context p {
+    color: var(--text);
+    margin: 0.4rem 0 0;
+  }
+
+  .project-links {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .project-links a {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .research-origin {
+    padding: 4rem 0;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .origin-grid,
+  .ongoing-grid {
+    display: grid;
+    grid-template-columns: 0.65fr 1.35fr;
+    gap: 5rem;
+  }
+
+  .large-text {
+    margin-top: 0;
+    color: var(--text);
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.55;
+  }
+
+  .border-section {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-heading {
+    max-width: 900px;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-heading.narrow {
+    max-width: 800px;
+  }
+
+  .section-heading > p:last-child {
+    font-size: 1.1rem;
+  }
+
+  .pipeline {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding: 2rem 0;
+    margin-bottom: 5rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pipeline div span {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .pipeline strong {
+    font-size: 0.95rem;
+  }
+
+  .arrow {
+    color: var(--accent);
+  }
+
+  .two-column {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 5rem;
+  }
+
+  .two-column h3 {
+    font-size: 1.5rem;
+  }
+
+  .two-column p:first-child {
+    margin-top: 0;
+  }
+
+  .dependency-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    margin: 4rem 0;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .parameter {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2rem;
+    background: var(--surface);
+    padding: 2.5rem;
+  }
+
+  .symbol {
+    color: var(--accent);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .parameter h3 {
+    margin-bottom: 0.75rem;
+  }
+
+  .equation-block {
+    margin: 5rem 0 0;
+    padding: 3rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+
+  .equation {
+    margin: 2rem 0;
+    overflow-x: auto;
+    color: var(--text);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: clamp(1.25rem, 3vw, 2rem);
+    white-space: nowrap;
+  }
+
+  .equation-block > p:last-child {
+    max-width: 760px;
+  }
+
+  .dynamics-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mechanism {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 4rem 0 5rem;
+    padding: 2rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .mechanism div {
+    font-weight: 600;
+  }
+
+  .mechanism span {
+    color: var(--accent);
+    font-size: 1.4rem;
+  }
+
+  .concept-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem;
+    margin-top: 4rem;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-size: 0.85rem;
+  }
+
+  .concept-flow strong {
+    color: var(--accent);
+  }
+
+  blockquote {
+    max-width: 900px;
+    margin: 4rem 0 2rem;
+    padding-left: 2rem;
+    border-left: 3px solid var(--accent);
+    color: var(--text);
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+  }
+
+  .after-quote {
+    max-width: 760px;
+  }
+
+  .ongoing-section {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .ongoing-copy {
+    font-size: 1.08rem;
+  }
+
+  .ongoing-copy p:first-child {
+    margin-top: 0;
+  }
+
+  .outlook-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .outlook-grid > div {
+    padding: 2.5rem;
+    background: var(--background);
+  }
+
+  .outlook-grid h3 {
+    margin-bottom: 0.8rem;
+  }
+
+  @media (max-width: 800px) {
+    .project-hero {
+      padding: 5rem 0 4rem;
+    }
+
+    .project-context,
+    .project-links {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .origin-grid,
+    .ongoing-grid,
+    .two-column,
+    .dependency-grid,
+    .outlook-grid {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    .pipeline {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+
+    .pipeline .arrow {
+      transform: rotate(90deg);
+      width: fit-content;
+    }
+
+    .mechanism {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .mechanism span {
+      transform: rotate(90deg);
+    }
+
+    .equation-block {
+      padding: 2rem 1.25rem;
+    }
+  }
+</style>
