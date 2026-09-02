@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import NetworkAnimation from '../components/NetworkAnimation.astro';
 ---
 
 <Layout
@@ -25,16 +26,7 @@ import Layout from '../layouts/Layout.astro';
         </div>
       </div>
 
-      <div class="research-summary">
-        <span class="label">Research interests</span>
-
-        <ul>
-          <li>Systems Biology</li>
-          <li>Theoretical Biophysics</li>
-          <li>Scientific Machine Learning</li>
-          <li>Mechanistic Modeling</li>
-        </ul>
-      </div>
+      <NetworkAnimation />
     </div>
   </section>
 
@@ -109,9 +101,10 @@ import Layout from '../layouts/Layout.astro';
 
   .hero-grid {
     display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
-    gap: 6rem;
-    align-items: end;
+    grid-template-columns: minmax(0, 1.3fr) minmax(260px, 1fr);
+    gap: 7rem;
+    align-items: stretch;
+    min-width: 0;
   }
 
   .lead {
@@ -139,29 +132,12 @@ import Layout from '../layouts/Layout.astro';
     color: white;
   }
 
-  .research-summary {
-    border-left: 1px solid var(--border);
-    padding-left: 2rem;
-  }
-
-  .label,
   article > span {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     color: var(--muted);
     font-size: 0.75rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 1rem 0 0;
-  }
-
-  li {
-    padding: 0.6rem 0;
-    border-bottom: 1px solid var(--border);
   }
 
   .section-intro {
@@ -215,12 +191,6 @@ import Layout from '../layouts/Layout.astro';
     .background-grid {
       grid-template-columns: 1fr;
       gap: 3rem;
-    }
-
-    .research-summary {
-      border-left: 0;
-      border-top: 1px solid var(--border);
-      padding: 2rem 0 0;
     }
 
     .project-grid {

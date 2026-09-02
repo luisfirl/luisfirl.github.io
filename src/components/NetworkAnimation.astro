@@ -1,0 +1,216 @@
+<div class="network-visual" data-network-visual>
+  <canvas
+    aria-hidden="true"
+    data-network-canvas
+  ></canvas>
+</div>
+
+<script>
+  // @ts-nocheck
+  const initialiseNetwork = () => {
+    const visual = document.querySelector('[data-network-visual]');
+    const canvas = visual?.querySelector('[data-network-canvas]');
+
+    if (visual instanceof HTMLElement && canvas instanceof HTMLCanvasElement) {
+      const context = canvas.getContext('2d');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      if (context) {
+      const nodeBlueprints = [
+        [0.04, 0.25, 0.08, 0.02],
+        [0.27, 0.12, -0.05, 0.06],
+        [0.5, 0.27, 0.04, -0.05],
+        [0.75, 0.15, -0.03, 0.04],
+        [0.96, 0.31, 0.06, -0.02],
+        [0.13, 0.58, -0.04, -0.05],
+        [0.4, 0.48, 0.05, 0.03],
+        [0.67, 0.62, -0.06, -0.03],
+        [0.9, 0.5, 0.03, 0.05],
+        [0.04, 0.84, 0.05, -0.04],
+        [0.3, 0.82, -0.04, 0.02],
+        [0.62, 0.88, 0.02, -0.05],
+        [0.96, 0.8, -0.05, 0.03],
+        [0.18, 0.38, 0.04, 0.05],
+        [0.52, 0.68, -0.03, -0.04],
+        [0.78, 0.9, 0.05, -0.02],
+      ];
+
+      const nodes = nodeBlueprints.map(([positionX, positionY, velocityX, velocityY], index) => ({
+        positionX,
+        positionY,
+        velocityX,
+        velocityY,
+        phase: index * 0.73,
+        radius: index % 4 === 0 ? 9 : 6.75,
+      }));
+      const connectionOffsets = new Map();
+      let animationFrame = 0;
+      let lastFrameTime = 0;
+      let visualWidth = 0;
+      let visualHeight = 0;
+      let pixelRatio = 1;
+
+      /**
+       * Keeps the initial connection timing stable while still letting each
+       * potential edge appear and disappear at a different moment.
+       * @param {number} firstIndex
+       * @param {number} secondIndex
+       */
+      const randomValue = (firstIndex, secondIndex) => {
+        const seed = (firstIndex + 1) * 19 + (secondIndex + 1) * 31;
+        return (Math.sin(seed) + 1) / 2;
+      };
+
+      const positionOnCanvas = (positionX) => {
+        const horizontalInset = Math.min(112, visualWidth * 0.2);
+        const usableWidth = visualWidth - horizontalInset * 2;
+        const boundedPosition = Math.min(0.995, Math.max(0.005, positionX));
+
+        return horizontalInset + boundedPosition * usableWidth;
+      };
+
+      const resizeCanvas = () => {
+        const bounds = canvas.getBoundingClientRect();
+        pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        visualWidth = bounds.width;
+        visualHeight = bounds.height;
+        canvas.width = Math.floor(visualWidth * pixelRatio);
+        canvas.height = Math.floor(visualHeight * pixelRatio);
+        context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      };
+
+      /** @param {number} time */
+      const drawNetwork = (time) => {
+        const elapsed = lastFrameTime ? Math.min(time - lastFrameTime, 50) : 16;
+        lastFrameTime = time;
+        const movementScale = reducedMotion.matches ? 0 : elapsed / 1000;
+
+        context.clearRect(0, 0, visualWidth, visualHeight);
+
+        nodes.forEach((node) => {
+          node.positionX += node.velocityX * movementScale;
+          node.positionY += node.velocityY * movementScale;
+
+          if (node.positionX < 0.005 || node.positionX > 0.995) node.velocityX *= -1;
+          if (node.positionY < 0.08 || node.positionY > 0.92) node.velocityY *= -1;
+        });
+
+        nodes.forEach((firstNode, firstIndex) => {
+          nodes.slice(firstIndex + 1).forEach((secondNode, offset) => {
+            const secondIndex = firstIndex + offset + 1;
+            const distanceX =
+              positionOnCanvas(firstNode.positionX) -
+              positionOnCanvas(secondNode.positionX);
+            const distanceY = (firstNode.positionY - secondNode.positionY) * visualHeight;
+            const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+            const connectionRange = Math.min(240, visualWidth * 0.6);
+            const fullStrengthRange = connectionRange * 0.55;
+            const distanceFadeRange = Math.min(80, connectionRange * 0.35);
+            const connectionKey = `${firstIndex}-${secondIndex}`;
+            const currentOffset = connectionOffsets.get(connectionKey) ?? randomValue(firstIndex, secondIndex);
+            const nextOffset = (currentOffset + movementScale * 0.08) % 1;
+            connectionOffsets.set(connectionKey, nextOffset);
+            const fadeInProgress = Math.min(1, nextOffset / 0.55);
+            const fadeOutProgress = Math.min(1, Math.max(0, (nextOffset - 0.96) / 0.04));
+            const connectionFade =
+              fadeInProgress * fadeInProgress * (3 - 2 * fadeInProgress) *
+              (1 - fadeOutProgress * fadeOutProgress * (3 - 2 * fadeOutProgress));
+            const distanceFade = Math.min(
+              1,
+              Math.max(0, (connectionRange - distance) / distanceFadeRange),
+            );
+            const isConnected = connectionFade > 0.01 && distanceFade > 0.01;
+
+            if (isConnected) {
+              const distanceStrength =
+                distance <= fullStrengthRange
+                  ? 1
+                  : 0.3 +
+                    (1 - (distance - fullStrengthRange) /
+                      (connectionRange - fullStrengthRange)) *
+                      0.7;
+              const opacity = distanceStrength * connectionFade * distanceFade;
+              context.strokeStyle = `rgba(0, 107, 143, ${opacity})`;
+              context.lineWidth = 2.5;
+              context.beginPath();
+              context.moveTo(
+                positionOnCanvas(firstNode.positionX),
+                firstNode.positionY * visualHeight,
+              );
+              context.lineTo(
+                positionOnCanvas(secondNode.positionX),
+                secondNode.positionY * visualHeight,
+              );
+              context.stroke();
+            }
+          });
+        });
+
+        nodes.forEach((node) => {
+          const nodeX = positionOnCanvas(node.positionX);
+          const nodeY = node.positionY * visualHeight;
+          const pulse = reducedMotion.matches ? 0 : Math.sin(time / 1000 + node.phase) * 1.125;
+
+          context.fillStyle = '#006b8f';
+          context.beginPath();
+          context.arc(nodeX, nodeY, node.radius + pulse, 0, Math.PI * 2);
+          context.fill();
+        });
+
+        if (!reducedMotion.matches) animationFrame = requestAnimationFrame(drawNetwork);
+      };
+
+      const startAnimation = () => {
+        cancelAnimationFrame(animationFrame);
+        lastFrameTime = 0;
+        resizeCanvas();
+        drawNetwork(performance.now());
+      };
+
+      const resizeObserver = new ResizeObserver(resizeCanvas);
+      resizeObserver.observe(visual);
+      reducedMotion.addEventListener('change', startAnimation);
+      startAnimation();
+      }
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialiseNetwork, { once: true });
+  } else {
+    initialiseNetwork();
+  }
+</script>
+
+<style>
+  .network-visual {
+    --page-gutter: max(1.5rem, calc((100vw - var(--max-width)) / 2));
+    --animation-inset: 7rem;
+    width: calc(100% + var(--page-gutter) - var(--animation-inset));
+    height: 100%;
+    margin-right: calc((var(--page-gutter) - var(--animation-inset)) * -1);
+    min-width: 0;
+    border-left: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  @media (max-width: 750px) {
+    .network-visual {
+      width: 100%;
+      height: 240px;
+      margin-right: 0;
+      border-left: 0;
+      border-top: 1px solid var(--border);
+      padding-top: 1rem;
+    }
+  }
+</style>
