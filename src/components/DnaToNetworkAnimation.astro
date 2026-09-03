@@ -1,0 +1,452 @@
+<div class="network-visual" data-dna-network-visual>
+  <canvas aria-hidden="true" data-dna-network-canvas></canvas>
+</div>
+
+<script>
+  // @ts-nocheck
+  const initialiseDnaNetwork = () => {
+    const visual = document.querySelector('[data-dna-network-visual]');
+    const canvas = visual?.querySelector('[data-dna-network-canvas]');
+
+    if (visual instanceof HTMLElement && canvas instanceof HTMLCanvasElement) {
+      const context = canvas.getContext('2d');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+      if (context) {
+        const networkBlueprints = [
+          [0.04, 0.25, 0.08, 0.02],
+          [0.27, 0.12, -0.05, 0.06],
+          [0.5, 0.27, 0.04, -0.05],
+          [0.75, 0.15, -0.03, 0.04],
+          [0.96, 0.31, 0.06, -0.02],
+          [0.13, 0.58, -0.04, -0.05],
+          [0.4, 0.48, 0.05, 0.03],
+          [0.67, 0.62, -0.06, -0.03],
+          [0.9, 0.5, 0.03, 0.05],
+          [0.04, 0.84, 0.05, -0.04],
+          [0.3, 0.82, -0.04, 0.02],
+          [0.62, 0.88, 0.02, -0.05],
+          [0.96, 0.8, -0.05, 0.03],
+          [0.18, 0.38, 0.04, 0.05],
+          [0.52, 0.68, -0.03, -0.04],
+          [0.78, 0.9, 0.05, -0.02],
+        ];
+        const particleBlueprints = [
+          { positionX: 0.08, positionY: 0.16, radius: 7.5, velocityX: 0.08, velocityY: 0.02, persistent: true },
+          { positionX: 0.92, positionY: 0.2, radius: 7, velocityX: -0.05, velocityY: 0.06, persistent: true },
+          { positionX: 0.12, positionY: 0.84, radius: 6.5, velocityX: 0.05, velocityY: -0.04, persistent: true },
+          { positionX: 0.9, positionY: 0.8, radius: 4.5, persistent: false },
+          { positionX: 0.08, positionY: 0.5, radius: 3, persistent: false },
+          { positionX: 0.92, positionY: 0.52, radius: 5, persistent: false },
+          { positionX: 0.2, positionY: 0.1, radius: 2.5, persistent: false },
+        ];
+        const coreNetworkNodeCount = networkBlueprints.length;
+        const networkTargets = networkBlueprints.map(
+          ([positionX, positionY, velocityX, velocityY]) => ({
+            positionX,
+            positionY,
+            velocityX,
+            velocityY,
+          }),
+        );
+        particleBlueprints.filter((particle) => particle.persistent).forEach((particle) => {
+          networkTargets.push({
+            positionX: particle.positionX,
+            positionY: particle.positionY,
+            velocityX: particle.velocityX,
+            velocityY: particle.velocityY,
+            radius: particle.radius,
+            isParticle: true,
+          });
+        });
+        const nodes = networkTargets.map(({ positionX, positionY, velocityX, velocityY, radius, isParticle }, index) => ({
+          positionX,
+          positionY,
+          velocityX,
+          velocityY,
+          isParticle: Boolean(isParticle),
+          phase: index * 0.73,
+          radius: radius ?? 7.5,
+        }));
+        const dnaPairCount = 60;
+        const dnaNodes = Array.from({ length: dnaPairCount * 2 }, (_, index) => ({
+          phase: index * 0.41,
+          radius: 7.5,
+        }));
+        const particleNodes = particleBlueprints.map((particle, index) => ({
+          phase: index * 1.17,
+          radius: particle.radius,
+          persistent: particle.persistent,
+        }));
+        const connectionOffsets = new Map();
+        const activeConnections = new Map();
+        const maximumConnectionsPerNode = 5;
+        const fadeInSpeed = 0.45;
+        const fadeOutSpeed = 0.9;
+        const dnaDuration = 5000;
+        const transitionDuration = 4000;
+        let animationFrame = 0;
+        let lastFrameTime = 0;
+        let startTime = 0;
+        let visualWidth = 0;
+        let visualHeight = 0;
+        let pixelRatio = 1;
+
+        const positionOnCanvas = (positionX) => {
+          const horizontalInset = Math.min(112, visualWidth * 0.2);
+          const usableWidth = visualWidth - horizontalInset * 2;
+          const boundedPosition = Math.min(0.995, Math.max(0.005, positionX));
+
+          return horizontalInset + boundedPosition * usableWidth;
+        };
+
+        const positionFromCanvas = (canvasX) => {
+          const horizontalInset = Math.min(112, visualWidth * 0.2);
+          const usableWidth = visualWidth - horizontalInset * 2;
+
+          return Math.min(0.995, Math.max(0.005, (canvasX - horizontalInset) / usableWidth));
+        };
+
+        const smoothStep = (value) => value * value * (3 - 2 * value);
+
+        const dnaPosition = (index, time) => {
+          const strandIndex = index % 2;
+          const rungIndex = Math.floor(index / 2);
+          const rungCount = dnaNodes.length / 2;
+          const progress = rungIndex / (rungCount - 1);
+          const angle = progress * Math.PI * 5 + time / 2600;
+          const centerX = visualWidth * 0.5;
+          const centerY = visualHeight * 0.5;
+          const strandWidth = Math.min(55, visualWidth * 0.1);
+          const verticalPosition = centerY + (progress - 0.5) * visualHeight * 1.05;
+          const strandOffset = strandIndex === 0 ? 0 : Math.PI;
+          const localX = Math.sin(angle + strandOffset) * strandWidth;
+          const localY = verticalPosition - centerY;
+          const rotation = -Math.PI / 4;
+
+          return {
+            x: centerX + localX * Math.cos(rotation) - localY * Math.sin(rotation),
+            y: centerY + localX * Math.sin(rotation) + localY * Math.cos(rotation),
+            depth: (Math.cos(angle + strandOffset) + 1) / 2,
+          };
+        };
+
+        const dnaPositionForNetworkNode = (index, time) => {
+          return dnaPosition(dnaIndexForNetworkNode(index), time);
+        };
+
+        const particlePosition = (index, time) => {
+          const particle = particleBlueprints[index];
+          const phase = index * 2.1;
+          const centerX = visualWidth * particle.positionX;
+          const centerY = visualHeight * particle.positionY;
+
+          return {
+            x: centerX + Math.sin(time / 3600 + phase) * Math.min(28, visualWidth * 0.045),
+            y: centerY + Math.cos(time / 4200 + phase * 1.3) * Math.min(24, visualHeight * 0.06),
+          };
+        };
+
+        const dnaIndexForNetworkNode = (index) => {
+          const networkRung = Math.floor(index / 2);
+          const dnaRung = Math.round(
+            networkRung * ((dnaNodes.length / 2 - 1) / (networkBlueprints.length / 2 - 1)),
+          );
+          return dnaRung * 2 + (index % 2);
+        };
+
+        const resizeCanvas = () => {
+          const bounds = canvas.getBoundingClientRect();
+          pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+          visualWidth = bounds.width;
+          visualHeight = bounds.height;
+          canvas.width = Math.floor(visualWidth * pixelRatio);
+          canvas.height = Math.floor(visualHeight * pixelRatio);
+          context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+        };
+
+        const drawNode = (nodeX, nodeY, node, pulse, opacity = 1, depthScale = 1) => {
+          context.globalAlpha = opacity;
+          context.fillStyle = '#006b8f';
+          context.beginPath();
+          context.arc(nodeX, nodeY, (node.radius + pulse) * depthScale, 0, Math.PI * 2);
+          context.fill();
+          context.globalAlpha = 1;
+        };
+
+        const drawNetwork = (time, transitionProgress) => {
+          const elapsed = lastFrameTime ? Math.min(time - lastFrameTime, 50) : 16;
+          lastFrameTime = time;
+          const networkMotionProgress = smoothStep(
+            Math.min(1, Math.max(0, (transitionProgress - 0.2) / 0.8)),
+          );
+          const networkActive = networkMotionProgress > 0.01;
+          const movementScale =
+            !reducedMotion.matches ? (elapsed / 1000) * networkMotionProgress : 0;
+          const connectionRange = Math.min(240, visualWidth * 0.6);
+          const distanceFadeRange = Math.min(80, connectionRange * 0.35);
+          const desiredConnections = new Map();
+          const desiredCounts = nodes.map(() => 0);
+
+          nodes.forEach((node) => {
+            node.positionX += node.velocityX * movementScale;
+            node.positionY += node.velocityY * movementScale;
+            if (node.positionX < 0.005 || node.positionX > 0.995) node.velocityX *= -1;
+            if (node.positionY < 0.08 || node.positionY > 0.92) node.velocityY *= -1;
+          });
+
+          nodes.forEach((firstNode, firstIndex) => {
+            nodes.slice(firstIndex + 1).forEach((secondNode, offset) => {
+              const secondIndex = firstIndex + offset + 1;
+              const distanceX =
+                positionOnCanvas(firstNode.positionX) -
+                positionOnCanvas(secondNode.positionX);
+              const distanceY = (firstNode.positionY - secondNode.positionY) * visualHeight;
+              const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+              const connectionKey = `${firstIndex}-${secondIndex}`;
+              const currentOffset = connectionOffsets.get(connectionKey) ?? 0.5;
+              const nextOffset = (currentOffset + movementScale * 0.08) % 1;
+              connectionOffsets.set(connectionKey, nextOffset);
+              const fadeInProgress = Math.min(1, nextOffset / 0.55);
+              const fadeOutProgress = Math.min(1, Math.max(0, (nextOffset - 0.96) / 0.04));
+              const connectionFade = smoothStep(fadeInProgress) * (1 - smoothStep(fadeOutProgress));
+              const distanceFade = Math.min(1, Math.max(0, (connectionRange - distance) / distanceFadeRange));
+              const connectionStrength = networkActive
+                ? connectionFade * distanceFade
+                : 0;
+
+              if (connectionStrength > 0.01) {
+                desiredConnections.set(connectionKey, {
+                  firstNode,
+                  firstIndex,
+                  secondNode,
+                  secondIndex,
+                  connectionFade,
+                  distanceFade,
+                  connectionStrength,
+                });
+              }
+            });
+          });
+
+          Array.from(desiredConnections.values())
+            .sort((firstConnection, secondConnection) => secondConnection.connectionStrength - firstConnection.connectionStrength)
+            .forEach((connection) => {
+              if (
+                desiredCounts[connection.firstIndex] < maximumConnectionsPerNode &&
+                desiredCounts[connection.secondIndex] < maximumConnectionsPerNode
+              ) {
+                const connectionKey = `${connection.firstIndex}-${connection.secondIndex}`;
+                desiredConnections.set(connectionKey, connection);
+                desiredCounts[connection.firstIndex] += 1;
+                desiredCounts[connection.secondIndex] += 1;
+              } else {
+                desiredConnections.delete(`${connection.firstIndex}-${connection.secondIndex}`);
+              }
+            });
+
+          activeConnections.forEach((activeConnection, connectionKey) => {
+            if (!desiredConnections.has(connectionKey)) {
+              activeConnection.opacity -= movementScale * fadeOutSpeed;
+              if (activeConnection.opacity <= 0) activeConnections.delete(connectionKey);
+            }
+          });
+
+          desiredConnections.forEach((connection, connectionKey) => {
+            const activeConnection = activeConnections.get(connectionKey);
+            if (activeConnection) {
+              activeConnection.connection = connection;
+              activeConnection.opacity = Math.min(1, activeConnection.opacity + movementScale * fadeInSpeed);
+            } else {
+              const connectionCounts = nodes.map(() => 0);
+              activeConnections.forEach((existingConnection) => {
+                if (existingConnection.opacity > 0) {
+                  connectionCounts[existingConnection.connection.firstIndex] += 1;
+                  connectionCounts[existingConnection.connection.secondIndex] += 1;
+                }
+              });
+
+              if (
+                connectionCounts[connection.firstIndex] < maximumConnectionsPerNode &&
+                connectionCounts[connection.secondIndex] < maximumConnectionsPerNode
+              ) {
+                activeConnections.set(connectionKey, { connection, opacity: 0 });
+              }
+            }
+          });
+
+          context.clearRect(0, 0, visualWidth, visualHeight);
+
+          const connectionFadeProgress = smoothStep(
+            Math.min(1, transitionProgress / 0.25),
+          );
+          const retainedNodeProgress = smoothStep(
+            Math.min(1, Math.max(0, (transitionProgress - 0.15) / 0.55)),
+          );
+          const dnaOpacity = 1 - connectionFadeProgress;
+
+          dnaNodes.forEach((node, index) => {
+            const dna = dnaPosition(index, time);
+            const pulse = reducedMotion.matches ? 0 : Math.sin(time / 1000 + node.phase) * 1.125;
+            const depthScale = 0.86 + dna.depth * 0.28;
+            const isNetworkNode = nodes.some(
+              (_, networkIndex) => dnaIndexForNetworkNode(networkIndex) === index,
+            );
+
+            if (!isNetworkNode) {
+              const flightProgress = smoothStep(
+                Math.min(1, Math.max(0, (transitionProgress - 0.2) / 0.8)),
+              );
+              const fadeProgress = smoothStep(
+                Math.min(1, Math.max(0, (transitionProgress - 0.2) / 0.35)),
+              );
+              const flightAngle = Math.atan2(dna.y - visualHeight / 2, dna.x - visualWidth / 2);
+              const flightDistance = Math.max(visualWidth, visualHeight) * 1.2 * flightProgress;
+              const nodeX = dna.x + Math.cos(flightAngle) * flightDistance;
+              const nodeY = dna.y + Math.sin(flightAngle) * flightDistance;
+              drawNode(nodeX, nodeY, node, pulse, (1 - fadeProgress) * dnaOpacity, depthScale);
+            }
+          });
+
+          nodes.slice(0, coreNetworkNodeCount).forEach((node, index) => {
+            const dna = dnaPositionForNetworkNode(index, time);
+            const networkX = positionOnCanvas(node.positionX);
+            const networkY = node.positionY * visualHeight;
+            const nodeX = dna.x + (networkX - dna.x) * retainedNodeProgress;
+            const nodeY = dna.y + (networkY - dna.y) * retainedNodeProgress;
+            const pulse = reducedMotion.matches ? 0 : Math.sin(time / 1000 + node.phase) * 1.125;
+            const depthScale = 1 + (1 - retainedNodeProgress) * (0.86 + dna.depth * 0.28 - 1);
+            drawNode(nodeX, nodeY, node, pulse, 1, depthScale);
+          });
+
+          nodes.slice(coreNetworkNodeCount).forEach((node, index) => {
+            const particle = particlePosition(index, time);
+            const networkX = positionOnCanvas(node.positionX);
+            const networkY = node.positionY * visualHeight;
+            const particleProgress = smoothStep(
+              Math.min(1, Math.max(0, (transitionProgress - 0.2) / 0.8)),
+            );
+            const nodeX = particle.x + (networkX - particle.x) * particleProgress;
+            const nodeY = particle.y + (networkY - particle.y) * particleProgress;
+            const pulse = reducedMotion.matches ? 0 : Math.sin(time / 1000 + node.phase) * 1.125;
+            drawNode(nodeX, nodeY, node, pulse);
+          });
+
+          particleNodes
+            .filter((particle) => !particle.persistent)
+            .forEach((particle, index) => {
+              const particlePositionValue = particlePosition(index + 3, time);
+              const fadeProgress = smoothStep(
+                Math.min(1, Math.max(0, (transitionProgress - 0.2) / 0.35)),
+              );
+                const nodeX = particlePositionValue.x;
+                const nodeY = particlePositionValue.y;
+              const pulse = reducedMotion.matches
+                ? 0
+                : Math.sin(time / 1000 + particle.phase) * 1.125;
+              drawNode(nodeX, nodeY, particle, pulse, 1 - fadeProgress);
+            });
+
+          if (connectionFadeProgress < 0.99) {
+            for (let rungIndex = 0; rungIndex < dnaNodes.length / 2; rungIndex += 2) {
+              const first = dnaPosition(rungIndex * 2, time);
+              const second = dnaPosition(rungIndex * 2 + 1, time);
+              context.strokeStyle = `rgba(0, 107, 143, ${1 - connectionFadeProgress})`;
+              context.lineWidth = 2.5;
+              context.beginPath();
+              context.moveTo(first.x, first.y);
+              context.lineTo(second.x, second.y);
+              context.stroke();
+            }
+          }
+
+          activeConnections.forEach((activeConnection) => {
+            const connection = activeConnection.connection;
+            const firstX = positionOnCanvas(connection.firstNode.positionX);
+            const firstY = connection.firstNode.positionY * visualHeight;
+            const secondX = positionOnCanvas(connection.secondNode.positionX);
+            const secondY = connection.secondNode.positionY * visualHeight;
+            const opacity = activeConnection.opacity * networkMotionProgress;
+
+            if (opacity > 0.01) {
+              context.strokeStyle = `rgba(0, 107, 143, ${opacity})`;
+              context.lineWidth = 2.5;
+              context.beginPath();
+              context.moveTo(firstX, firstY);
+              context.lineTo(secondX, secondY);
+              context.stroke();
+            }
+          });
+
+          if (!reducedMotion.matches) animationFrame = requestAnimationFrame(render);
+        };
+
+        const render = (time) => {
+          if (!startTime) startTime = time;
+          const elapsed = time - startTime;
+          const transitionProgress = Math.min(1, Math.max(0, (elapsed - dnaDuration) / transitionDuration));
+          drawNetwork(time, transitionProgress);
+        };
+
+        const startAnimation = () => {
+          cancelAnimationFrame(animationFrame);
+          startTime = performance.now();
+          lastFrameTime = 0;
+          resizeCanvas();
+
+          const networkStartTime = startTime + dnaDuration + transitionDuration;
+          networkTargets.forEach((target, index) => {
+            const helixPosition = index < coreNetworkNodeCount
+              ? dnaPositionForNetworkNode(index, networkStartTime)
+              : particlePosition(index - coreNetworkNodeCount, networkStartTime);
+            target.positionX = positionFromCanvas(helixPosition.x);
+            target.positionY = helixPosition.y / visualHeight;
+            nodes[index].positionX = target.positionX;
+            nodes[index].positionY = target.positionY;
+          });
+
+          render(startTime);
+        };
+
+        const resizeObserver = new ResizeObserver(resizeCanvas);
+        resizeObserver.observe(visual);
+        reducedMotion.addEventListener('change', startAnimation);
+        startAnimation();
+      }
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialiseDnaNetwork, { once: true });
+  } else {
+    initialiseDnaNetwork();
+  }
+</script>
+
+<style>
+  .network-visual {
+    --page-gutter: max(1.5rem, calc((100vw - var(--max-width)) / 2));
+    --animation-inset: 7rem;
+    width: calc(100% + var(--page-gutter) - var(--animation-inset));
+    height: 100%;
+    margin-right: calc((var(--page-gutter) - var(--animation-inset)) * -1);
+    min-width: 0;
+    border-left: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    inset: 0;
+  }
+
+  @media (max-width: 750px) {
+    .network-visual {
+      display: none;
+    }
+  }
+</style>
