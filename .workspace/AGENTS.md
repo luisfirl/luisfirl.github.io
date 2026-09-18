@@ -715,7 +715,7 @@ Approximate relevant structure:
 
 Additional current files include:
 
-- `src/assets/luis-firl-profile.jpg` — optimized through `astro:assets` on the About page.
+- `src/assets/luis-firl-profile.png` — transparent profile image optimized through `astro:assets` on the About page.
 - `src/components/DnaToNetworkAnimation.astro` — active homepage visualization.
 - `src/components/NetworkAnimation.astro` and `src/components/NetworkAnimationBackup.astro` — unused animation variants.
 - `src/components/Welcome.astro`, `src/assets/astro.svg`, and `src/assets/background.svg` — unused Astro starter artifacts.
