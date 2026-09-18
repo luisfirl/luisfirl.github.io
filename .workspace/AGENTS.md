@@ -438,28 +438,22 @@ Add sections when meaningful content exists.
 
 # 16. Current content status / known next steps
 
-At the time this `AGENTS.md` was written:
+The current public content already reflects the ongoing-research framing:
 
-- The main site structure exists.
-- The signaling-network project page exists.
-- The Master's thesis PDF has been linked from the project page.
-- The home page still contains older wording that frames the signaling work too strongly as a Master's-thesis project.
-- The `/projects` page still contains older wording that frames the signaling work too strongly as a Master's-thesis project.
-- The `/about` page does not yet fully reflect the ongoing research affiliation.
-- The `/about` page does not yet include both research-group links.
-- The signaling-project page is a good first version but will likely receive later visual and scientific refinements.
+- The home page introduces the research identity and links to the project overview.
+- `/projects` presents the signaling-network work as **Ongoing Research** and links to the detailed page.
+- `/projects/signaling-networks` explains the research context, dependency inference, mechanistic ODE model, identifiability, current work, and future directions.
+- The Master's thesis PDF is linked from the signaling-project page as supporting documentation.
+- `/about` now uses the profile image and presents the main research interests.
 
-A logical next content task is therefore:
+There are no currently committed publications or additional public academic profiles in the site navigation. Do not add empty navigation items or invent affiliation/publication details.
 
-1. Update the home-page featured project from "Master's Thesis" to ongoing signaling-network research.
-2. Link it directly to `/projects/signaling-networks`.
-3. Update `/projects` so the project is presented as ongoing research rather than merely "Theoretical Biophysics / Master's Thesis".
-4. Update `/about` to mention the Master's thesis as the origin of continuing research.
-5. Add research-affiliation links to `/about`.
-6. Re-check site-wide wording for consistency.
-7. Later improve the signaling-project page with scientific visualizations and possibly selected figures.
+Likely future work includes:
 
-These are recommendations, not immutable requirements.
+1. Add research-affiliation links to `/about` when the page content is expanded.
+2. Improve the signaling-project page with carefully selected scientific visualizations.
+3. Add publications, CV, ORCID, Google Scholar, or software sections only when meaningful public content exists.
+4. Re-check all public wording whenever the research status changes.
 
 Follow Luis's newest explicit request if priorities change.
 
@@ -520,6 +514,10 @@ Prefer a scientific long-form narrative where text, equations, diagrams, and res
 # 18. Animation direction
 
 The website is intentionally built with Astro so that richer visual elements can be added later.
+
+The current homepage uses `src/components/DnaToNetworkAnimation.astro`. It begins as a DNA-helix visualization and transitions into a moving network of nodes and connections. The visual is rendered with a native `<canvas>` and vanilla JavaScript; it is hidden below 750px to keep the mobile layout focused and performant. The component also respects `prefers-reduced-motion`.
+
+`src/components/NetworkAnimation.astro` and `src/components/NetworkAnimationBackup.astro` are older/alternative network-animation implementations and are not currently imported by a page. `src/components/Welcome.astro` is leftover Astro starter content and is not part of the public site. Do not modify or reintroduce these files unless the task explicitly concerns them.
 
 Animations are welcome when they support scientific meaning, especially ideas such as:
 
@@ -663,7 +661,7 @@ Current stack:
 - Node.js `>=22.12.0`
 - standard Astro components
 - CSS
-- minimal client-side JavaScript
+- minimal client-side JavaScript, including native Canvas animation in `DnaToNetworkAnimation.astro`
 - GitHub Pages
 - GitHub Actions
 
@@ -708,11 +706,20 @@ Approximate relevant structure:
 │   │   └── about.astro
 │   └── styles/
 │       └── global.css
-├── AGENTS.md
+├── .workspace/
+│   └── AGENTS.md
 ├── astro.config.mjs
 ├── package.json
 └── README.md
 ```
+
+Additional current files include:
+
+- `src/assets/luis-firl-profile.jpg` — optimized through `astro:assets` on the About page.
+- `src/components/DnaToNetworkAnimation.astro` — active homepage visualization.
+- `src/components/NetworkAnimation.astro` and `src/components/NetworkAnimationBackup.astro` — unused animation variants.
+- `src/components/Welcome.astro`, `src/assets/astro.svg`, and `src/assets/background.svg` — unused Astro starter artifacts.
+- `public/favicon.svg` and `public/favicon.ico` — favicon assets.
 
 Inspect the repository rather than assuming this structure is unchanged in the future.
 
