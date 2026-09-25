@@ -715,7 +715,7 @@ Approximate relevant structure:
 
 Additional current files include:
 
-- `src/assets/luis-firl-profile.png` — transparent profile image optimized through `astro:assets` on the About page.
+- `src/assets/luis-firl-profile-2.jpg` — current About-page portrait, optimized through `astro:assets` with responsive widths up to 840px and quality 90. Preserve high-density variants for sharp display at the 280px desktop / 220px mobile layout sizes.
 - `src/assets/luis-firl-logo.png` — original site logo.
 - `src/assets/luis-firl-logo-2.png` — source for the browser tab icon; Luis explicitly wants this variant in the tab.
 - `src/assets/luis-firl-logo-3.png` — desired search-result icon; keep both source logos unchanged when exporting icon sizes.
