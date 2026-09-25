@@ -717,11 +717,14 @@ Additional current files include:
 
 - `src/assets/luis-firl-profile.png` — transparent profile image optimized through `astro:assets` on the About page.
 - `src/assets/luis-firl-logo.png` — original site logo.
-- `src/assets/luis-firl-logo-2.png` — current alternative site logo used as the browser tab favicon through the shared layout.
+- `src/assets/luis-firl-logo-2.png` — source for the browser tab icon; Luis explicitly wants this variant in the tab.
+- `src/assets/luis-firl-logo-3.png` — desired search-result icon; keep both source logos unchanged when exporting icon sizes.
 - `src/components/DnaToNetworkAnimation.astro` — active homepage visualization.
 - `src/components/NetworkAnimation.astro` and `src/components/NetworkAnimationBackup.astro` — unused animation variants.
 - `src/components/Welcome.astro`, `src/assets/astro.svg`, and `src/assets/background.svg` — unused Astro starter artifacts.
-- `public/favicon.svg` and `public/favicon.ico` — favicon assets.
+- `public/luis-firl-logo-2.ico` — browser tab favicon containing 16×16, 32×32, 48×48, and 64×64 versions of logo 2; linked after the larger PNG in the shared layout.
+- `public/luis-firl-logo-3.png` — square 96×96 favicon offered at a stable URL for search engines. Search engines choose their favicon from the site's candidates; there is no guaranteed independent search-only icon setting.
+- `public/favicon.svg` and `public/favicon.ico` — compatibility favicons derived from logo 3; do not restore the Astro starter icons.
 
 Inspect the repository rather than assuming this structure is unchanged in the future.
 
