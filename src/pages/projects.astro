@@ -6,20 +6,10 @@ import Layout from '../layouts/Layout.astro';
   title="Projects - Luis Firl"
   description="Research and computational projects by Luis Firl."
 >
-  <section class="page-hero">
-    <div class="container">
-      <p class="eyebrow">Projects</p>
-      <h1>Research, models and computational tools.</h1>
-
-      <p class="lead">
-        Selected research and programming projects at the intersection of
-        biology, mathematical modeling and machine learning.
-      </p>
-    </div>
-  </section>
-
-  <section class="section">
+  <section class="section projects-section">
     <div class="container projects">
+      <h1 class="eyebrow">Projects</h1>
+
       <article>
         <div class="project-meta">
           <span>Ongoing Research</span>
@@ -65,19 +55,16 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  .page-hero {
+  .projects-section {
     padding: 7rem 0 5rem;
-    border-bottom: 1px solid var(--border);
   }
 
-  .page-hero h1 {
-    max-width: 950px;
-    font-size: clamp(2.8rem, 6vw, 5rem);
-  }
-
-  .lead {
-    max-width: 760px;
-    font-size: 1.3rem;
+  .projects > .eyebrow {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0.08em;
   }
 
   .projects {
