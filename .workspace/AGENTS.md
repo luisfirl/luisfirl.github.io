@@ -423,6 +423,7 @@ Current core pages:
 - `/research` — Research interests
 - `/projects` — Project overview
 - `/projects/signaling-networks` — Ongoing signaling-network research project
+- `/projects/deep-learning-cell-cycle` — DLCC, ongoing cell-cycle image-classification research
 - `/about` — Background and links
 
 The website may later include:
@@ -449,6 +450,7 @@ The current public content already reflects the ongoing-research framing:
 - The home page presents **Signaling Project** with **01 · Ongoing Research**, a scientific project description, and a direct link to the detail page.
 - `/projects` uses numbered status labels and presents **Signaling Project** above its full scientific title, linking to the detail page.
 - `/projects/signaling-networks` explains the research context, dependency inference, mechanistic ODE model, identifiability, current work, and future directions.
+- **DLCC — Deep Learning Cell Cycle** replaces the former Scientific ML placeholder on the homepage and project overview as **02 · Ongoing Research**. Its detail page describes the planned workflow, BBBC048, model development, evaluation, and current early-development status, with dataset attribution.
 - The Master's thesis PDF is linked from the signaling-project page as supporting documentation.
 - `/about` now uses the profile image and presents the main research interests.
 
@@ -708,10 +710,12 @@ Approximate relevant structure:
 │   │   ├── research.astro
 │   │   ├── projects.astro
 │   │   ├── projects/
-│   │   │   └── signaling-networks.astro
+│   │   │   ├── signaling-networks.astro
+│   │   │   └── deep-learning-cell-cycle.astro
 │   │   └── about.astro
 │   └── styles/
-│       └── global.css
+│       ├── global.css
+│       └── research-project.css
 ├── .workspace/
 │   └── AGENTS.md
 ├── astro.config.mjs
@@ -1384,7 +1388,7 @@ Maintain this distinction.
 
 The `/projects` page should function as a concise research-project index.
 
-Use numbered status labels such as **01 · Ongoing Research** and **02 · Upcoming**. Keep the research-area labels. Display **Signaling Project** smaller above its unchanged scientific title.
+Use numbered status labels **01 · Ongoing Research** and **02 · Ongoing Research**. Keep the research-area labels. Display **Signaling Project** smaller above its unchanged scientific title. For the second project, display **DLCC** smaller above **Deep Learning Cell Cycle**, with **Machine Learning · Cell Cycle Biology** as its research areas.
 
 The signaling project should be presented as:
 
@@ -1406,6 +1410,8 @@ One excellent project is better than several vague placeholders.
 # 47. Scientific machine learning positioning
 
 Scientific ML is an important future direction for Luis's profile.
+
+DLCC is a current deep-learning project in early development. Distinguish its image-classification focus from future integration of machine learning into mechanistic models.
 
 However, do not artificially relabel classical numerical optimization or ODE modeling as AI merely to make the profile sound more ML-heavy.
 
@@ -1697,3 +1703,29 @@ When in doubt, optimize for:
 **scientific credibility, clarity, and depth**
 
 rather than visual spectacle.
+
+---
+
+# 61. DLCC — Deep Learning Cell Cycle
+
+DLCC is the second ongoing research project. Its public page is
+`/projects/deep-learning-cell-cycle`.
+
+- Display name: **Deep Learning Cell Cycle**; short name: **DLCC**.
+- Research areas: **Machine Learning · Cell Cycle Biology**.
+- Aim: develop a convolutional neural network in PyTorch to classify cell-cycle phases from BBBC048 single-cell images.
+- Status: **Ongoing research · Early development**. Preliminary convolutional feature-extraction work exists, but there is no complete trained classifier or reported performance yet.
+- Describe image preprocessing, supervised classification, validation, and evaluation as planned or developing work. Do not present proposed metrics, model choices, or results as completed.
+- Keep image variants belonging to the same cell together when discussing training, validation, and test splits. Account for class imbalance in the planned evaluation.
+- Repository: `https://github.com/luisfirl/DLCC-Deep-Learning-Cell-Cycle`. It is currently private; label its public-facing link accordingly. Do not change repository visibility.
+- The project detail pages share `src/styles/research-project.css`. Preserve the signaling page's existing presentation when changing these shared styles.
+
+## Dataset attribution
+
+- **BBBC048, version 1 — Cell Cycle Jurkat Cells**: `https://bbbc.broadinstitute.org/BBBC048`.
+- Images of 32,266 Jurkat cells; labels: G1, S, G2, prophase, metaphase, anaphase, telophase.
+- Credit Andrew Filby and the Flow Cytometry Core Facility at Newcastle University.
+- Cite Eulenberg et al. (2017), *Reconstructing cell cycle and disease progression using deep learning*, Nature Communications 8, 463, DOI `10.1038/s41467-017-00623-3`.
+- Cite Ljosa, Sokolnicki and Carpenter (2012), *Annotated high-throughput microscopy image sets for validation*, Nature Methods 9, 637, DOI `10.1038/nmeth.2083`.
+- Images and annotations are licensed under **CC BY-NC-SA 3.0**. Do not present this as the license for Luis's project code.
+- Treat the source study's results as prior work, never as DLCC results. Do not assume image channels are RGB or that illustrative input dimensions are dataset properties.

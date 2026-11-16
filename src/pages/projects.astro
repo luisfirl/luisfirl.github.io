@@ -38,18 +38,27 @@ import Layout from '../layouts/Layout.astro';
 
       <article>
         <div class="project-meta">
-          <span>02 · Upcoming</span>
-          <span>Scientific ML</span>
+          <span>02 · Ongoing Research</span>
+          <span>Machine Learning · Cell Cycle Biology</span>
         </div>
 
-        <h2>Machine Learning for Dynamical Systems</h2>
+        <p class="project-name">DLCC</p>
+        <h2>
+          <a href="/projects/deep-learning-cell-cycle">
+            Deep Learning Cell Cycle
+          </a>
+        </h2>
 
         <p>
-          Future projects exploring modern machine learning approaches for
-          biological and physical dynamical systems.
+          An ongoing research project developing a convolutional neural
+          network in PyTorch to classify cell-cycle phases from BBBC048
+          single-cell images. Early development focuses on image
+          representations, model design and a reliable evaluation workflow.
         </p>
 
-        <p class="status">In development.</p>
+        <a class="project-link" href="/projects/deep-learning-cell-cycle">
+          Explore the research project →
+        </a>
       </article>
     </div>
   </section>
@@ -107,13 +116,6 @@ import Layout from '../layouts/Layout.astro';
 
   article p {
     max-width: 760px;
-  }
-
-  .status {
-    color: var(--accent);
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    font-size: 0.85rem;
-    margin-top: 2rem;
   }
 
   @media (max-width: 650px) {

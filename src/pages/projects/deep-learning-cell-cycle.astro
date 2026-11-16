@@ -1,0 +1,270 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import '../../styles/research-project.css';
+---
+
+<Layout
+  title="DLCC — Deep Learning Cell Cycle - Luis Firl"
+  description="DLCC: ongoing research developing a PyTorch model for cell-cycle phase classification from BBBC048 single-cell images."
+>
+  <section class="project-hero">
+    <div class="container">
+      <p class="eyebrow">DLCC</p>
+
+      <h1>Deep Learning Cell Cycle</h1>
+
+      <p class="hero-text">
+        Developing a deep learning model in PyTorch to classify cell-cycle
+        phases from single-cell images. Using BBBC048, the project explores
+        how learned image features can distinguish biological states.
+      </p>
+
+      <div class="project-context">
+        <div>
+          <span class="context-label">Research areas</span>
+          <p>Machine Learning · Cell Cycle Biology</p>
+        </div>
+
+        <div>
+          <span class="context-label">Status</span>
+          <p>Ongoing research · Early development</p>
+        </div>
+      </div>
+
+      <div class="project-links">
+        <a
+          href="https://github.com/luisfirl/DLCC-Deep-Learning-Cell-Cycle"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Project repository (private) ↗
+        </a>
+        <a
+          href="https://bbbc.broadinstitute.org/BBBC048"
+          target="_blank"
+          rel="noreferrer"
+        >
+          BBBC048 dataset ↗
+        </a>
+        <a
+          href="https://doi.org/10.1038/s41467-017-00623-3"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Dataset publication ↗
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-section">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Planned workflow</p>
+        <h2>From cell images to cell-cycle phases.</h2>
+      </div>
+
+      <div class="pipeline" aria-label="Planned cell-cycle classification workflow">
+        <div>
+          <span>Data</span>
+          <strong>BBBC048 single-cell images</strong>
+        </div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div>
+          <span>Preparation</span>
+          <strong>Image channels and preprocessing</strong>
+        </div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div>
+          <span>Learning</span>
+          <strong>Convolutional network in PyTorch</strong>
+        </div>
+        <span class="arrow" aria-hidden="true">→</span>
+        <div>
+          <span>Prediction</span>
+          <strong>Seven cell-cycle classes</strong>
+        </div>
+      </div>
+
+      <div class="two-column text-block">
+        <h3>Connecting appearance and biological state</h3>
+        <div>
+          <p>
+            The central question is how much information about a cell's
+            cycle phase can be learned from its image. DLCC aims to build
+            a classifier that links image features to the annotated phases
+            and examines where those distinctions remain difficult.
+          </p>
+          <p>
+            The initial approach is supervised learning: each cell provides
+            an image input and a reference label. A convolutional neural
+            network will learn features for predicting one of the seven
+            classes.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-heading narrow dataset-copy">
+        <p class="eyebrow">The dataset</p>
+        <h2>Annotated images of Jurkat cells.</h2>
+        <p>
+          <a href="https://bbbc.broadinstitute.org/BBBC048" target="_blank" rel="noreferrer">BBBC048, version 1</a>{' '}
+          contains images of 32,266 Jurkat cells acquired with the
+          ImageStream platform, together with cell-cycle annotations.
+          These labels cover G1, S and G2, as well as prophase, metaphase,
+          anaphase and telophase.
+        </p>
+      </div>
+
+      <div class="two-column text-block">
+        <h3>From annotations to model inputs</h3>
+        <div>
+          <p>
+            The source experiment used fluorescence staining to measure
+            DNA content and identify mitotic cells. These measurements
+            provide context for the dataset's reference labels.
+          </p>
+          <p>
+            Selecting the image channels and defining their preprocessing
+            are part of DLCC's initial development. Multiple images of the
+            same cell must remain grouped when preparing data for training
+            and evaluation.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section border-section">
+    <div class="container">
+      <div class="section-heading">
+        <p class="eyebrow">Model development</p>
+        <h2>Learning features and evaluating what they capture.</h2>
+        <p>
+          The first model will provide a baseline for investigating
+          image-based phase classification. Development is organized around
+          four connected steps.
+        </p>
+      </div>
+
+      <div class="outlook-grid">
+        <div>
+          <h3>Image preparation</h3>
+          <p>
+            Choose the input channels, normalization and image transforms,
+            preserving the cellular information needed for classification.
+          </p>
+        </div>
+        <div>
+          <h3>Convolutional learning</h3>
+          <p>
+            Build a PyTorch network that learns image features and maps
+            them to seven class scores through supervised training.
+          </p>
+        </div>
+        <div>
+          <h3>Evaluation on held-out cells</h3>
+          <p>
+            Keep cells separate across training, validation and test sets,
+            grouping all image variants of each cell. Reserve the test
+            set for evaluating the final model.
+          </p>
+        </div>
+        <div>
+          <h3>Performance across phases</h3>
+          <p>
+            Examine class imbalance with per-class precision and recall,
+            macro-averaged F1 and a confusion matrix, paying particular
+            attention to phases represented by few cells.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ongoing-section">
+    <div class="container ongoing-grid">
+      <div>
+        <p class="eyebrow">Current work</p>
+        <h2>Building the first model.</h2>
+      </div>
+      <div class="ongoing-copy">
+        <p>
+          DLCC is in early development. Current work explores convolutional
+          feature extraction in PyTorch and lays the groundwork for training
+          on BBBC048. A complete trained classifier and performance results
+          are not yet available.
+        </p>
+        <p>
+          The next milestone is a first trainable baseline, supported by
+          consistent preprocessing and a reproducible evaluation workflow.
+          Subsequent analysis will focus on which phases are confused and
+          how model and input choices affect those predictions.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="research-origin">
+    <div class="container origin-grid">
+      <p class="eyebrow">Research context</p>
+      <div class="dataset-copy">
+        <p class="large-text">
+          DLCC connects learning from biological images with the question
+          of how cellular appearance reflects cell-cycle state.
+        </p>
+        <p>
+          The project uses{' '}
+          <a href="https://bbbc.broadinstitute.org/BBBC048" target="_blank" rel="noreferrer">BBBC048</a>{' '}
+          from the Broad Bioimage Benchmark Collection. The images were
+          provided by Andrew Filby and the Flow Cytometry Core Facility
+          at Newcastle University. Images and annotations are licensed under{' '}
+          <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" target="_blank" rel="noreferrer">CC BY-NC-SA 3.0</a>.
+        </p>
+
+        <h3 class="references-heading">Dataset and collection references</h3>
+        <ol class="references">
+          <li>
+            Eulenberg, P., Köhler, N., Blasi, T. et al. (2017).{' '}
+            <a href="https://doi.org/10.1038/s41467-017-00623-3" target="_blank" rel="noreferrer">
+              Reconstructing cell cycle and disease progression using deep learning.
+            </a>{' '}
+            <em>Nature Communications</em>, 8, 463.
+          </li>
+          <li>
+            Ljosa, V., Sokolnicki, K. L. &amp; Carpenter, A. E. (2012).{' '}
+            <a href="https://doi.org/10.1038/nmeth.2083" target="_blank" rel="noreferrer">
+              Annotated high-throughput microscopy image sets for validation.
+            </a>{' '}
+            <em>Nature Methods</em>, 9, 637.
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .dataset-copy a {
+    color: var(--accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .references-heading {
+    margin-top: 2.5rem;
+  }
+
+  .references {
+    padding-left: 1.25rem;
+    color: var(--muted);
+  }
+
+  .references li + li {
+    margin-top: 1.25rem;
+  }
+</style>
