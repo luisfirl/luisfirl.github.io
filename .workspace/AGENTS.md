@@ -1388,7 +1388,7 @@ Maintain this distinction.
 
 The `/projects` page should function as a concise research-project index.
 
-Use numbered status labels **01 · Ongoing Research** and **02 · Ongoing Research**. Keep the research-area labels. Display **Signaling Project** smaller above its unchanged scientific title. For the second project, display **DLCC** smaller above **Deep Learning Cell Cycle**, with **Machine Learning · Cell Cycle Biology** as its research areas.
+Use numbered status labels **01 · Ongoing Research** and **02 · Ongoing Research**. Keep the research-area labels. Display **Signaling Project** smaller above its unchanged scientific title. For the second project, display **DLCC Project** smaller above **Deep Learning Cell Cycle**, with **Machine Learning · Cell Cycle Biology** as its research areas.
 
 The signaling project should be presented as:
 
