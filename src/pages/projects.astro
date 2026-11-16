@@ -12,10 +12,11 @@ import Layout from '../layouts/Layout.astro';
 
       <article>
         <div class="project-meta">
-          <span>Ongoing Research</span>
+          <span>01 · Ongoing Research</span>
           <span>Systems Biology · Theoretical Biophysics</span>
         </div>
 
+        <p class="project-name">Signaling Project</p>
         <h2>
           <a href="/projects/signaling-networks">
             Data-driven Dynamic Modeling of Signaling Networks in
@@ -37,8 +38,8 @@ import Layout from '../layouts/Layout.astro';
 
       <article>
         <div class="project-meta">
+          <span>02 · Upcoming</span>
           <span>Scientific ML</span>
-          <span>Upcoming</span>
         </div>
 
         <h2>Machine Learning for Dynamical Systems</h2>
@@ -91,6 +92,17 @@ import Layout from '../layouts/Layout.astro';
 
   article h2 {
     margin: 2rem 0 1rem;
+  }
+
+  .project-name {
+    margin: 2rem 0 0.75rem;
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 600;
+  }
+
+  .project-name + h2 {
+    margin-top: 0;
   }
 
   article p {

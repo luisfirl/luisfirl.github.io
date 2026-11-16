@@ -3,12 +3,12 @@ import Layout from '../../layouts/Layout.astro';
 ---
 
 <Layout
-  title="Dynamic Modeling of Signaling Networks - Luis Firl"
-  description="Ongoing research on data-driven inference and dynamic modeling of kinase signaling networks in triple-negative breast cancer."
+  title="Signaling Project - Luis Firl"
+  description="Signaling Project: ongoing research on data-driven inference and dynamic modeling of kinase signaling networks in triple-negative breast cancer."
 >
   <section class="project-hero">
     <div class="container">
-      <p class="eyebrow">Ongoing Research · Systems Biology</p>
+      <p class="eyebrow">Signaling Project</p>
 
       <h1>
         Data-driven Dynamic Modeling of Signaling Networks in
@@ -24,9 +24,9 @@ import Layout from '../../layouts/Layout.astro';
 
       <div class="project-context">
         <div>
-          <span class="context-label">Research environment</span>
+          <span class="context-label">Research areas</span>
           <p>
-            Theoretical Biophysics · Humboldt-Universität zu Berlin
+            Systems Biology · Theoretical Biophysics
           </p>
         </div>
 
@@ -38,49 +38,20 @@ import Layout from '../../layouts/Layout.astro';
 
       <div class="project-links">
         <a
-          href="https://klipp-linding.science/index.php/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Research Group ↗
-        </a>
-
-        <a
           href="https://github.com/luisfirl/SignalingProject"
           target="_blank"
           rel="noreferrer"
         >
-          GitHub ↗
+          Project repository ↗
         </a>
 
         <a
           href="/files/luis-firl-master-thesis.pdf"
           target="_blank"
           rel="noreferrer"
->
+        >
           Read Master's Thesis (PDF) ↗
         </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="research-origin">
-    <div class="container origin-grid">
-      <p class="eyebrow">Research context</p>
-
-      <div>
-        <p class="large-text">
-          The project originated from my Master's thesis in the Theoretical
-          Biophysics group of Prof. Edda Klipp at Humboldt-Universität zu
-          Berlin and is currently being further developed as part of an
-          ongoing research collaboration.
-        </p>
-
-        <p>
-          The broader goal is to develop quantitative models that connect
-          experimentally observed phosphorylation dynamics with the underlying
-          regulatory structure of cellular signaling networks.
-        </p>
       </div>
     </div>
   </section>
@@ -364,6 +335,36 @@ import Layout from '../../layouts/Layout.astro';
       </div>
     </div>
   </section>
+  <section class="research-origin">
+    <div class="container origin-grid">
+      <p class="eyebrow">Research context</p>
+
+      <div>
+        <p class="large-text">
+          The project originated from my Master's thesis in the Theoretical
+          Biophysics group of Prof. Edda Klipp at Humboldt-Universität zu
+          Berlin and is currently being further developed as part of an
+          ongoing research collaboration.
+        </p>
+
+        <p>
+          The broader goal is to develop quantitative models that connect
+          experimentally observed phosphorylation dynamics with the underlying
+          regulatory structure of cellular signaling networks.
+        </p>
+
+        <div class="project-links">
+          <a
+            href="https://klipp-linding.science/index.php/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Research Group ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </Layout>
 
 <style>
@@ -418,7 +419,7 @@ import Layout from '../../layouts/Layout.astro';
   .research-origin {
     padding: 4rem 0;
     background: var(--surface);
-    border-bottom: 1px solid var(--border);
+    border-top: 1px solid var(--border);
   }
 
   .origin-grid,

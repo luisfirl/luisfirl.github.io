@@ -101,9 +101,15 @@ Software/package names may appear in a compact technical note, repository README
 
 # 5. Main ongoing research project
 
-## Working title
+## Project name
+
+**Signaling Project**
+
+## Scientific title
 
 **Data-driven Dynamic Modeling of Signaling Networks in Triple-Negative Breast Cancer**
+
+Keep the scientific title as the main heading on the project overview card and detail page, with the project name displayed smaller above it. Use **Signaling Project** as the concise homepage card title.
 
 Current project page:
 
@@ -440,8 +446,8 @@ Add sections when meaningful content exists.
 
 The current public content already reflects the ongoing-research framing:
 
-- The home page introduces the research identity and links to the project overview.
-- `/projects` presents the signaling-network work as **Ongoing Research** and links to the detailed page.
+- The home page presents **Signaling Project** with **01 · Ongoing Research**, a scientific project description, and a direct link to the detail page.
+- `/projects` uses numbered status labels and presents **Signaling Project** above its full scientific title, linking to the detail page.
 - `/projects/signaling-networks` explains the research context, dependency inference, mechanistic ODE model, identifiability, current work, and future directions.
 - The Master's thesis PDF is linked from the signaling-project page as supporting documentation.
 - `/about` now uses the profile image and presents the main research interests.
@@ -1074,6 +1080,8 @@ A working but simple scientific page is preferable to an overengineered page tha
 
 The project page should broadly communicate the following scientific story, but headings and visual structure may evolve.
 
+The historical **Research context** section belongs at the end of the page, after the scientific content and outlook. Preserve its existing explanatory paragraphs. The research-group link is placed there alongside the historical context. The hero uses research areas and project status rather than an institutional research-environment field.
+
 ## Research context
 
 Why dynamic kinase signaling requires quantitative / systems-level modeling.
@@ -1328,7 +1336,7 @@ It should answer quickly:
 - What is his main current project?
 - Where can I learn more?
 
-The main signaling project should eventually be shown as **ongoing research**, not as simply "Master's Thesis".
+The main project is shown as **Signaling Project**, with the label **01 · Ongoing Research** and a short scientific description.
 
 A homepage visitor should be able to reach:
 
@@ -1375,6 +1383,8 @@ Maintain this distinction.
 # 46. Projects-page direction
 
 The `/projects` page should function as a concise research-project index.
+
+Use numbered status labels such as **01 · Ongoing Research** and **02 · Upcoming**. Keep the research-area labels. Display **Signaling Project** smaller above its unchanged scientific title.
 
 The signaling project should be presented as:
 
