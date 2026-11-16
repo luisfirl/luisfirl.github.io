@@ -452,7 +452,7 @@ The current public content already reflects the ongoing-research framing:
 - `/projects/signaling-networks` explains the research context, dependency inference, mechanistic ODE model, identifiability, current work, and future directions.
 - **DLCC — Deep Learning Cell Cycle** replaces the former Scientific ML placeholder on the homepage and project overview as **02 · Ongoing Research**. Its detail page describes the planned workflow, BBBC048, model development, evaluation, and current early-development status, with dataset attribution.
 - The Master's thesis PDF is linked from the signaling-project page as supporting documentation.
-- `/about` now uses the profile image and presents the main research interests.
+- `/about` now uses the profile image and presents the main research interests. Its **Find me online** section links to GitHub and LinkedIn (`https://www.linkedin.com/in/luisfirl/`).
 
 There are no currently committed publications or additional public academic profiles in the site navigation. Do not add empty navigation items or invent affiliation/publication details.
 
